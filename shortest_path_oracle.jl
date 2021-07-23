@@ -11,7 +11,7 @@ and should return the pair (z^\ast(c), w^\ast(c))
 This file contains the code for the shortest path oracle, which relies on JuMP
 =#
 
-using Gurobi, JuMP, LightGraphs, SparseArrays, LinearAlgebra
+using JuMP, LightGraphs, SparseArrays, LinearAlgebra, Clp
 
 """
     sp_flow_jump_setup(sources, destinations, start_node, end_node; solver=:Gurobi, gurobiEnv = Gurobi.Env())
@@ -30,7 +30,7 @@ objective coefficients dynamically. Takes as input a directed graph via a list o
 - `solver`:  either `:Gurobi` or `:Clp`
 - `gurobiEnv`:  optionally pass in an existing Gurobi enviornemnet
 """
-function sp_flow_jump_setup_mine(sources, destinations, start_node, end_node; solver=:Gurobi, gurobiEnv = Gurobi.Env(), small_coefficient_tolerance = 0.01)
+function sp_flow_jump_setup_mine(sources, destinations, start_node, end_node; solver=:Gurobi, small_coefficient_tolerance = 0.01)
     function local_sp_oracle_jump(c::Vector{Float64})
         nodes = unique(union(sources, destinations))
         n_nodes = length(nodes)
@@ -60,7 +60,7 @@ function sp_flow_jump_setup_mine(sources, destinations, start_node, end_node; so
 
         # Set up JuMP model
         if solver == :Gurobi
-            mod = Model(with_optimizer(Gurobi.Optimizer, gurobiEnv))
+            mod = Model(Clp.Optimizer)
         else
             error("Not a valid solver")
         end

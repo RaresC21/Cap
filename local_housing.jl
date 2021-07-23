@@ -1,6 +1,6 @@
 module LocalHousing
 
-using Gurobi, JuMP, Parameters, LinearAlgebra
+using Clp, JuMP, Parameters, LinearAlgebra
 using ScikitLearn
 using Statistics
 
@@ -10,7 +10,6 @@ using Statistics
 @sk_import base: clone
 # export Problem
 
-gurobi_env = Gurobi.Env();
 
 @with_kw mutable struct ProblemNewsvendor
     h::Int64
@@ -100,7 +99,7 @@ function predict(P, x; return_penalty = false, eps = -1)
         eps = 0
     end
     
-    model = Model(() -> Gurobi.Optimizer(gurobi_env))
+    model = Model(Clp.Optimizer)
     MOI.set(model, MOI.Silent(), true)
 
     n = p_n(P)

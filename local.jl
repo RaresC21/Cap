@@ -1,6 +1,6 @@
 module Local
 
-using Gurobi, JuMP, Parameters, LinearAlgebra
+using Clp, JuMP, Parameters, LinearAlgebra
 using ScikitLearn
 using Statistics
 @sk_import tree: DecisionTreeClassifier
