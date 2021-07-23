@@ -1,6 +1,6 @@
 module Utils
 
-using Gurobi, JuMP
+using Clp, JuMP
 
 function evaluate(CHat, CTrue, oracle, objective_fun; loss_only = false)
     n = size(CTrue)[2]

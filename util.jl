@@ -3,7 +3,7 @@ Assorted utility functions used throughout the code.
 Dependencies: none
 =#
 
-using LinearAlgebra, Gurobi, Distributions
+using LinearAlgebra, Clp, Distributions
 
 """
 	cost_least_squares(X, c, intercept=false)
